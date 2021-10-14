@@ -1,4 +1,5 @@
 /// <reference  types="@types/googlemaps"  />
+
 import { Component, ElementRef, ViewChild, AfterViewInit, OnInit } from '@angular/core';
 
 @Component({
@@ -10,6 +11,7 @@ import { Component, ElementRef, ViewChild, AfterViewInit, OnInit } from '@angula
 export class AppComponent implements OnInit, AfterViewInit {
 	@ViewChild('addresstext') addresstext!: ElementRef;
 	@ViewChild('gmap') gmapElement: any;
+  public placeData: any = {};
 
   constructor() { }
 
@@ -17,6 +19,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 	
 	public ngAfterViewInit(): void {
 		this.getPlaceAutocomplete();
+    console.log(this.placeData);
+
 	}
 
 	public getPlaceAutocomplete() {
@@ -28,6 +32,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 		google.maps.event.addListener(autocomplete, 'place_changed', () => {
 			const place: any = autocomplete.getPlace();
+      this.placeData = place;
 			const myLatlng = place.geometry.location;
 			const mapOptions = {
 				zoom: 15,
