@@ -10,6 +10,7 @@ import { Component, ElementRef, ViewChild, AfterViewInit, OnInit } from '@angula
 
 export class AppComponent implements OnInit, AfterViewInit {
 	@ViewChild('addresstext') addresstext!: ElementRef;
+	@ViewChild('placeInfo') placeInfo!: ElementRef;
 	@ViewChild('gmap') gmapElement: any;
   public placeData: any = {};
 
@@ -19,8 +20,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 	
 	public ngAfterViewInit(): void {
 		this.getPlaceAutocomplete();
-    console.log(this.placeData);
-
 	}
 
 	public getPlaceAutocomplete() {
@@ -32,18 +31,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 		google.maps.event.addListener(autocomplete, 'place_changed', () => {
 			const place: any = autocomplete.getPlace();
-      this.placeData = place;
-			const myLatlng = place.geometry.location;
-			const mapOptions = {
-				zoom: 15,
-				center: myLatlng
-			};
-			const map = new google.maps.Map(this.gmapElement.nativeElement, mapOptions);
-			const marker = new google.maps.Marker({
-				position: myLatlng,
-				title: place.name
-			});
-			marker.setMap(map);
+			this.placeInfo.nativeElement.innerHTML = place.formatted_address;
 		});
 	}
 }
