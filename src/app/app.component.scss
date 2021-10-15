@@ -4,3 +4,10 @@ div {
     padding: 20px;
     width: 30%
 }
+
+.app-input {
+    &--styles {
+        height: 30px;
+        width: 566px;
+    }
+}
