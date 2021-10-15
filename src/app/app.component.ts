@@ -34,7 +34,12 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 		google.maps.event.addListener(autocomplete, 'place_changed', () => {
 			let place: any = autocomplete.getPlace();
-			let streetNumber = '', route = '', locality, administrativeArea, country, postalCode = '';
+			let streetNumber = '';
+			let route = '';
+			let locality = '';
+			let administrativeArea = '';
+			let country = '';
+			let postalCode = '';
 
 			place.address_components.forEach((addressComponent: any) => {
 				switch (addressComponent.types[0]) {
