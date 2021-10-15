@@ -11,7 +11,11 @@ import { Component, ElementRef, ViewChild, AfterViewInit, OnInit } from '@angula
 export class AppComponent implements OnInit, AfterViewInit {
 	@ViewChild('addresstext') addresstext!: ElementRef;
 	@ViewChild('placeInfo') placeInfo!: ElementRef;
-	@ViewChild('gmap') gmapElement: any;
+	@ViewChild('streetAddress') streetAddress!: ElementRef;
+	@ViewChild('city') city!: ElementRef;
+	@ViewChild('state') state!: ElementRef;
+	@ViewChild('zipCode') zipCode!: ElementRef;
+	@ViewChild('country') country!: ElementRef;
   public placeData: any = {};
 
   constructor() { }
@@ -30,8 +34,45 @@ export class AppComponent implements OnInit, AfterViewInit {
 		const autocomplete = new google.maps.places.Autocomplete(this.addresstext.nativeElement, options);
 
 		google.maps.event.addListener(autocomplete, 'place_changed', () => {
-			const place: any = autocomplete.getPlace();
+			let streetNumber = '';
+			let route = '';
+			let locality = '';
+			let administrativeArea = '';
+			let country = '';
+			let postalCode = '';
+			let place: any = autocomplete.getPlace();
+
+			place.address_components.forEach((addressComponent: any) => {
+				switch (addressComponent.types[0]) {
+					case 'street_number':
+						streetNumber = addressComponent.long_name;
+						break;
+					case 'route':
+						route = addressComponent.long_name;
+						break;
+					case 'locality':
+						locality = addressComponent.long_name;
+						break;
+					case 'administrative_area_level_1':
+						administrativeArea = addressComponent.long_name;
+						break;
+					case 'country':
+						country = addressComponent.long_name;
+						break;
+					case 'postal_code':
+						postalCode = addressComponent.long_name;
+						break;
+					default:
+						break;
+				}
+			});
+
 			this.placeInfo.nativeElement.innerHTML = place.formatted_address;
+			this.streetAddress.nativeElement.innerHTML = streetNumber + ' ' + route;
+			this.city.nativeElement.innerHTML = locality;
+			this.state.nativeElement.innerHTML = administrativeArea;
+			this.zipCode.nativeElement.innerHTML = postalCode;
+			this.country.nativeElement.innerHTML = country;
 		});
 	}
 }
