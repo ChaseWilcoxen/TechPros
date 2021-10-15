@@ -16,7 +16,6 @@ export class AppComponent implements OnInit, AfterViewInit {
 	@ViewChild('state') state!: ElementRef;
 	@ViewChild('zipCode') zipCode!: ElementRef;
 	@ViewChild('country') country!: ElementRef;
-  public placeData: any = {};
 
   constructor() { }
 
@@ -34,13 +33,8 @@ export class AppComponent implements OnInit, AfterViewInit {
 		const autocomplete = new google.maps.places.Autocomplete(this.addresstext.nativeElement, options);
 
 		google.maps.event.addListener(autocomplete, 'place_changed', () => {
-			let streetNumber = '';
-			let route = '';
-			let locality = '';
-			let administrativeArea = '';
-			let country = '';
-			let postalCode = '';
 			let place: any = autocomplete.getPlace();
+			let streetNumber, route, locality, administrativeArea, country, postalCode = '';
 
 			place.address_components.forEach((addressComponent: any) => {
 				switch (addressComponent.types[0]) {
