@@ -31,7 +31,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
 		google.maps.event.addListener(autocomplete, 'place_changed', () => {
 			const place: any = autocomplete.getPlace();
-			this.placeInfo.nativeElement.innerHTML = place.formatted_address;
+			this.placeInfo.nativeElement.innerHTML = place.formatted_address.replaceAll(",", "</br>");
 		});
 	}
 }
